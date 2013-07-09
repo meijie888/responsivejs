@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script type="text/javascript" src="responsive.js"></script>
+        <link rel="stylesheet" type="text/css" href="demo.css" >
+    </head>
+    <body>
+        <div class="border" id="border-extrawide">
+            Large desktop (1200px+)
+        </div>
+        <div class="border" id="border-wide" >
+            Desktop (980 - 1199px)
+        </div>
+        <div class="border" id="border-small">
+            Tablet (481 - 979px)
+        </div>
+        <div class="border" id="border-extrasmall">
+            Mobile (479px-)
+        </div>
+        
+        <script type="text/javascript">
+            
+            // Define the rules for the page using the responsive plugin.
+            // You can create multiple rules for the same range, the rules get applied in the order they are defined.
+                        
+            $.responsive.rule(0,479,function() {
+                $("#border-extrasmall").addClass("active");
+                $("#border-small").removeClass("active");
+                $("#border-wide").removeClass("active");
+                $("#border-extrawide").removeClass("active");
+            });
+            
+            $.responsive.rule(480,979,function() {
+                $("#border-extrasmall").removeClass("active");
+                $("#border-small").addClass("active");
+                $("#border-wide").removeClass("active");
+                $("#border-extrawide").removeClass("active");
+            });
+            
+            $.responsive.rule(980,1199,function() {
+                $("#border-extrasmall").removeClass("active");
+                $("#border-small").removeClass("active");
+                $("#border-wide").addClass("active");
+                $("#border-extrawide").removeClass("active");
+            });
+            
+            $.responsive.rule(1200,0,function() {
+                $("#border-extrasmall").removeClass("active");
+                $("#border-small").removeClass("active");
+                $("#border-wide").removeClass("active");
+                $("#border-extrawide").addClass("active");
+            });
+        </script>
+    </body>
+</html>

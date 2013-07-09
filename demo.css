@@ -1,0 +1,16 @@
+div.border {
+    background-color: #EFEFEF;
+    border: 1px solid #CCCCCC;
+    padding-top: 14px;
+    width: 90%;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+div.active {
+    background-color: #CCCCCC;   
+    border: 2px solid #666666;
+}
+
