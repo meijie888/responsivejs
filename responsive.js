@@ -16,7 +16,7 @@
         * @param width      The current client width
         */
         function invoke(width) {     
-            var shouldBeApplied = ((minWidth === 0 || ruleMinWidth <= width) && (maxWidth === 0 || ruleMaxWidth >= width));
+            var shouldBeApplied = ((ruleMinWidth === 0 || ruleMinWidth <= width) && (ruleMaxWidth === 0 || ruleMaxWidth >= width));
             
             // If the rule was previously applied and should be applied now, stop processing the rule.
             // This ensures that all the magic in the callback isn't applied a second time.
