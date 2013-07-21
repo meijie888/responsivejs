@@ -4,9 +4,16 @@ rules = []
 # This is used to keep everything for a single rule together
 class ResponsiveRule
 	constructor: (minWidth, maxWidth, callback) ->
-		@callback = callback
 		@minWidth = minWidth
 		@maxWidth = maxWidth
+		
+		# Bind the enter and exit callbacks according to the callback object passed in.
+		# The old API uses a single callback, so keep that intact.
+		if callback.enter? or callback.exit?
+			@enterCallback = callback.enter
+			@exitCallback = callback.exit
+		else
+			@enterCallback = callback
 
 	# Invokes the rule, allowing the user script to be executed
 	# when the browser window width is within the specified range
@@ -16,21 +23,22 @@ class ResponsiveRule
 
 		# When the rule should be applied, but is already applied
 		# don't apply it again.
-		if isApplied and shouldBeApplied
+		if @isApplied and shouldBeApplied
+			return
+			
+		# When the exit condition was applied, and the rule still
+		# doesn't need to be applied, then stop processing
+		if not @isApplied and not shouldBeApplied
 			return
 
-		# When the rule is not applied yet
-		# apply it and set the appropriate flag
+		# Apply the enter callback or the exit callback, depending on 
+		# whether the rule should apply or not.
 		if shouldBeApplied
-			@callback(width,@minWidth,@maxWidth)
-			isApplied = true
+			@enterCallback(width,@minWidth,@maxWidth) if @enterCallback?
+			@isApplied = true
 		else
-			# Mark the rule as not applied when it 
-			# was previously applied, but now is no longer in range
-			# This also sets the flag to false when the rule was not
-			# applied yet. Which is not a problem, since the state
-			# doesn't change.
-			isApplied = false
+			@exitCallback(width,@minWidth,@maxWidth) if @exitCallback?
+			@isApplied = false
 
 # Invokes all the rules because of a width change
 # Or because the document was loaded.

@@ -6,22 +6,35 @@
 
   ResponsiveRule = (function() {
     function ResponsiveRule(minWidth, maxWidth, callback) {
-      this.callback = callback;
       this.minWidth = minWidth;
       this.maxWidth = maxWidth;
+      if ((callback.enter != null) || (callback.exit != null)) {
+        this.enterCallback = callback.enter;
+        this.exitCallback = callback.exit;
+      } else {
+        this.enterCallback = callback;
+      }
     }
 
     ResponsiveRule.prototype.invoke = function(width) {
-      var isApplied, shouldBeApplied;
+      var shouldBeApplied;
       shouldBeApplied = (this.minWidth === 0 || this.minWidth <= width) && (this.maxWidth === 0 || this.maxWidth >= width);
-      if (isApplied && shouldBeApplied) {
+      if (this.isApplied && shouldBeApplied) {
+        return;
+      }
+      if (!this.isApplied && !shouldBeApplied) {
         return;
       }
       if (shouldBeApplied) {
-        this.callback(width, this.minWidth, this.maxWidth);
-        return isApplied = true;
+        if (this.enterCallback != null) {
+          this.enterCallback(width, this.minWidth, this.maxWidth);
+        }
+        return this.isApplied = true;
       } else {
-        return isApplied = false;
+        if (this.exitCallback != null) {
+          this.exitCallback(width, this.minWidth, this.maxWidth);
+        }
+        return this.isApplied = false;
       }
     };
 
