@@ -50,6 +50,16 @@
                 $("#border-wide").removeClass("active");
                 $("#border-extrawide").addClass("active");
             });
+			
+			// You can also work with enter/exit conditions
+			$.responsive.rule(1000,1100,{ 
+				enter: function() {
+					$("#border-wide").text("Within range");
+				},
+				exit: function() {
+					$("#border-wide").text("");
+				}
+			});
         </script>
     </body>
 </html>
