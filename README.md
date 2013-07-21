@@ -35,6 +35,29 @@ rule. When you specify 0 for one of the bounds of the rule, that bound is
 disabled. Essentially, you're telling the plugin that you don't care about the
 min or max width for that rule.
 
+Advanced usage: Enter/Exit conditions
+-------------------------------------
+In normal scenarios you should use just a single callback per rule. However 
+there are situations where it can be useful to have a callback for when the
+screen is coming in range and a different one when the screen size is getting
+out of range of the rule.
+
+You can specify both enter and exit callbacks for a rule with the following
+syntax:
+
+    $.responsive.rule(1000,1100, {
+		enter: function() {
+		
+		},
+		exit: function() {
+		
+		}
+	});
+	
+The responsive library will invoke the enter callback once when the screen
+size comes within range of the rule. The exit callback will be called once
+the screen size gets out of range of the rule. 
+
 Problems/questions
 ---------------------
 Feel free to post issues or fork the sources if you want things added or 
